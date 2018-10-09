@@ -17,10 +17,14 @@ public class DicewareController {
   public DicewareController (WordSource source, Random rng){
     generator = new PassphraseGenerator(source, rng);
 
-}
-   @GetMapping("/diceware")
-   public String get(@RequestParam(name = "length", defaultValue = "") int length) {
+  }
+   @GetMapping(path = "/diceware", produces = "text/plain")
+   public String get(@RequestParam(name = "length", defaultValue = "6") int length) {
      return generator.generate(length);
   }
 
+    @GetMapping(path = "/diceware", produces = "application/json")
+    public String[] getJson(@RequestParam(name = "length", defaultValue = "6")int length) {
+      return get(length).split("\\s+");
+  }
 }
